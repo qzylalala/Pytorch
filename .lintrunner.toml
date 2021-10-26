@@ -1,0 +1,82 @@
+[[linter]]
+name = 'FLAKE8'
+include_patterns = ['**/*.py']
+exclude_patterns = []
+args = [
+    'python3',
+    'tools/linter/flake8_linter.py',
+    '--binary=flake8',
+    '--',
+    '@{{PATHSFILE}}'
+]
+
+[[linter]]
+name = 'MYPY'
+include_patterns = ['**/*.py']
+exclude_patterns = []
+args = [
+    'python3',
+    'tools/linter/mypy_linter.py',
+    '--binary=mypy',
+    '--',
+    '@{{PATHSFILE}}'
+]
+
+[[linter]]
+name = 'CLANGFORMAT'
+include_patterns = ['**/*.cpp', '**/*.h']
+exclude_patterns = []
+args = [
+    'python3',
+    'tools/linter/clangformat_linter.py',
+    '--binary=clang-format',
+    '--',
+    '@{{PATHSFILE}}'
+]
+
+[[linter]]
+name = 'CLANGTIDY'
+include_patterns = ['**/*.cpp']
+exclude_patterns = []
+args = [
+    'python3',
+    'tools/linter/clangtidy_linter.py',
+    '--',
+    '@{{PATHSFILE}}'
+]
+
+[[linter]]
+name = 'TYPEIGNORE'
+include_patterns = ['**/*.py', '**/*.pyi']
+exclude_patterns = ['test/test_jit.py']
+args = [
+    'python3',
+    'tools/linter/grep_linter.py',
+    '--pattern=# type:\s*ignore(?!\[)',
+    '--linter_name=TYPEIGNORE',
+    '--error_name=unqualified type: ignore',
+    """--error_description=\
+        This line has an unqualified `type: ignore`; \
+        please convert it to `type: ignore[xxxx]`\
+    """,
+    '--',
+    '@{{PATHSFILE}}'
+]
+
+[[linter]]
+name = 'NOQA'
+include_patterns = ['**/*.py', '**/*.pyi']
+exclude_patterns = ['caffe2/**']
+args = [
+    'python3',
+    'tools/linter/grep_linter.py',
+    '--pattern=# type:\s*ignore(?!\[)',
+    '--linter_name=TYPEIGNORE',
+    '--error_name=unqualified noqa',
+    """--error_description=\
+        This line has an unqualified `noqa`; \
+        please convert it to `noqa: XXXX`\
+    """,
+    '--',
+    '@{{PATHSFILE}}'
+]
