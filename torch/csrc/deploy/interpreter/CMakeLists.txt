@@ -88,10 +88,12 @@ add_library(torch_python_static STATIC $<TARGET_OBJECTS:torch_python_obj>)
 set(INTERPRETER_LIB_SOURCES
   ${INTERPRETER_DIR}/interpreter_impl.cpp
   ${INTERPRETER_DIR}/builtin_registry.cpp
+  ${INTERPRETER_DIR}/register_frozenpython.cpp
   ${INTERPRETER_DIR}/import_find_sharedfuncptr.cpp
   ${FROZEN_FILES}
   ${LINKER_SCRIPT}
 )
+
 add_library(torch_deployinterpreter ${INTERPRETER_LIB_SOURCES} ${LINKER_SCRIPT})
 # need to ensure headers are present before any .cpp in interpreter are compiled,
 # but cpp themselves don't clearly depend on cpython so there is a race otherwise
